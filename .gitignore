@@ -1,0 +1,6 @@
+.env
+wp-config.php
+config.php
+error_log
+*.zip
+*.sql
