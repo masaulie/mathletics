@@ -29,6 +29,12 @@ jobs:
           ID="probe-$(date +%s)-$RANDOM.txt"
           echo "ok-$ID" > "$ID"
 
+          echo "== Posisi akun FTP =="
+          $CURL -v "ftp://$CN/" -Q "PWD" -o /dev/null 2>&1 | grep -E "^< 257|^< 250" | sed 's/^< //'
+          for t in "/" "/home/" "../" "/public_html/"; do
+            echo "-- listing $t"
+            $CURL "ftp://$CN/$t" -l 2>&1 | head -25
+          done
           echo "== Isi folder home FTP =="
           HOME_LS=$($CURL "ftp://$CN/" -l || true)
           echo "$HOME_LS"
