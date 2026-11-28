@@ -2,6 +2,8 @@ name: Cari folder situs (sekali pakai)
 
 on:
   workflow_dispatch:
+  push:
+    paths: ['.github/workflows/cari-docroot.yml']
 
 jobs:
   cari:
