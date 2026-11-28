@@ -16,7 +16,7 @@ jobs:
           P: ${{ secrets.FTP_PASSWORD }}
         run: |
           set -u
-          CURL="curl -s --ssl-reqd --connect-timeout 20 -u $U:$P"
+          CURL="curl -sS --ssl-reqd --connect-timeout 20 -u $U:$P"
           ID="probe-$(date +%s)-$RANDOM.txt"
           echo "ok-$ID" > "$ID"
 
@@ -39,7 +39,7 @@ jobs:
           FOUND=""
           for d in $CANDS; do
             path="$d/$ID"; [ "$d" = "." ] && path="$ID"
-            if $CURL -T "$ID" "ftp://$S/$path" >/dev/null 2>&1; then
+            if $CURL -T "$ID" "ftp://$S/$path" >/dev/null; then
               body=$(curl -s -m 15 "https://mathletics.id/$ID" || true)
               if [ "$body" = "ok-$ID" ]; then FOUND="$d"; echo "COCOK: $d"; else echo "bukan: $d"; fi
               $CURL "ftp://$S/" -Q "-DELE $path" >/dev/null 2>&1 || true
