@@ -9,6 +9,13 @@ jobs:
   cari:
     runs-on: ubuntu-latest
     steps:
+      - name: Lihat nama pada sertifikat server (tanpa kredensial)
+        env:
+          S: ${{ secrets.FTP_SERVER }}
+        run: |
+          echo | openssl s_client -starttls ftp -connect "$S:21" -servername "$S" 2>/dev/null \
+            | openssl x509 -noout -subject -ext subjectAltName | sed "s/$S/<FTP_SERVER>/g" || true
+          echo "IP: $(getent hosts "$S" | awk '{print $1}')"
       - name: Cari folder yang dilayani mathletics.id
         env:
           S: ${{ secrets.FTP_SERVER }}
