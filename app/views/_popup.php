@@ -1,11 +1,11 @@
 <dialog class="pj" id="jenjangDlg" aria-labelledby="pjH">
   <div class="in">
-    <h2 id="pjH">Kamu di jenjang mana?</h2>
-    <p class="mute">Pilih supaya paket dan tes yang tampil sesuai. Bisa diganti kapan saja dari tombol di pojok atas.</p>
+    <h2 id="pjH">Belajar di jenjang lain?</h2>
+    <p class="mute">Saat ini kelas yang dibuka untuk SMP. Pilih jenjang lain dan tinggalkan nomor WhatsApp, kami kabari begitu dibuka.</p>
     <ul class="pjl">
       <?php foreach (all('SELECT * FROM jenjang ORDER BY urut') as $j): ?>
-        <li><button type="button" <?= $j['aktif'] ? 'autofocus' : '' ?> data-kode="<?= h($j['kode']) ?>" data-aktif="<?= (int)$j['aktif'] ?>" data-nama="<?= h($j['nama']) ?>">
-          <span><?= h($j['nama']) ?><?php if ($j['aktif']): ?><small>Persiapan TKA SMP 2027</small><?php endif; ?></span>
+        <li><button type="button" data-kode="<?= h($j['kode']) ?>" data-aktif="<?= (int)$j['aktif'] ?>" data-nama="<?= h($j['nama']) ?>">
+          <span><?= h($j['nama']) ?><?php if ($j['aktif']): ?><small>Sudah dibuka</small><?php endif; ?></span>
           <?= $j['aktif'] ? icon('arrow') : '<span class="soon">Segera hadir</span>' ?>
         </button></li>
       <?php endforeach; ?>
@@ -18,5 +18,6 @@
       <p class="mute" id="tungguPesan" role="status"></p>
       <button class="btn block" type="submit">Kabari saya</button>
     </form>
+    <button type="button" class="btn ghost block tutup" id="jenjangTutup">Tutup</button>
   </div>
 </dialog>

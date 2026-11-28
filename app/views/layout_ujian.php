@@ -1,5 +1,6 @@
 <?php
 $title = $title ?? '';
+$noindex = true;
 $math = true;
 require __DIR__ . '/_head.php';
 ?>

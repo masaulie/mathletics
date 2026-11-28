@@ -27,9 +27,47 @@ function tes_diagnostik(): ?array
 }
 
 /* ---------- halaman ---------- */
+function tka_tanggal(): string
+{
+    $t = setting('tka_tanggal', '2027-03-29');
+    return preg_match('/^\d{4}-\d{2}-\d{2}$/', $t) && strtotime($t) ? $t : '2027-03-29';
+}
+
 function h_home(): void
 {
-    view('beranda', ['paket' => paket_aktif_smp(), 'diag' => tes_diagnostik()]);
+    $paket = paket_aktif_smp();
+    $kelas = null;
+    foreach ($paket as $p) if ($p['tipe'] === 'kelas') { $kelas = $p; break; }
+    $silabus = $kelas ? all('SELECT urut, judul, topik FROM pertemuan WHERE paket_id=? ORDER BY urut', [$kelas['id']]) : [];
+    view('beranda', ['paket' => $paket, 'diag' => tes_diagnostik(), 'kelas' => $kelas, 'silabus' => $silabus, 'tka' => tka_tanggal()]);
+}
+
+function h_privasi(): void
+{
+    view('privasi', ['title' => 'Kebijakan Privasi']);
+}
+
+function h_syarat(): void
+{
+    view('syarat', ['title' => 'Syarat dan Ketentuan']);
+}
+
+function h_robots(): void
+{
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "User-agent: *\n";
+    foreach (['admin', 'belajar', 'akun', 'masuk', 'keluar', 'ujian', 'daftar', 'berkas', 'qris', 'tunggu'] as $d) echo 'Disallow: ' . url($d) . "\n";
+    echo "\nSitemap: " . abs_url('sitemap.xml') . "\n";
+}
+
+function h_sitemap(): void
+{
+    $u = ['', 'paket', 'tes', 'privasi', 'syarat'];
+    foreach (all("SELECT slug FROM paket WHERE status='aktif'") as $p) $u[] = 'paket/' . $p['slug'];
+    header('Content-Type: application/xml; charset=utf-8');
+    echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n" . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($u as $x) echo '<url><loc>' . h(abs_url($x)) . '</loc></url>' . "\n";
+    echo '</urlset>';
 }
 
 function h_paket_list(): void
@@ -157,3 +195,7 @@ route('GET', '/daftar/{token}', 'h_daftar_status');
 route('POST', '/daftar/{token}/bukti', 'h_bukti_post');
 route('POST', '/tunggu', 'h_tunggu');
 route('GET', '/qris', 'h_qris');
+route('GET', '/privasi', 'h_privasi');
+route('GET', '/syarat', 'h_syarat');
+route('GET', '/robots.txt', 'h_robots');
+route('GET', '/sitemap.xml', 'h_sitemap');

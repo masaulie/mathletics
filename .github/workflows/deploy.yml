@@ -28,4 +28,5 @@ jobs:
             **/.git*/**
             .github/**
             .cpanel.yml
+            install.php
             README.md

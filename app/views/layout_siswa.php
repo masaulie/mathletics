@@ -1,5 +1,6 @@
 <?php
 $title = $title ?? '';
+$noindex = true;
 require __DIR__ . '/_head.php';
 $variant = 'siswa';
 $panel = 'Panel siswa';

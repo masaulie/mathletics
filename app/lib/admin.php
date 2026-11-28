@@ -477,6 +477,19 @@ function h_admin_pengaturan_simpan(): void
     set_setting('wa', $wa);
     set_setting('nama_usaha', mb_substr(post('nama_usaha', 'Mathletics'), 0, 60) ?: 'Mathletics');
     set_setting('instruksi_bayar', post('instruksi_bayar'));
+    $tka = post('tka_tanggal');
+    if ($tka !== '' && (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $tka) || !strtotime($tka))) {
+        flash('error', 'Format tanggal TKA tidak valid.');
+        redirect('admin/pengaturan');
+    }
+    set_setting('tka_tanggal', $tka);
+    set_setting('tka_label', mb_substr(post('tka_label'), 0, 60));
+    set_setting('tka_info', mb_substr(post('tka_info'), 0, 500));
+    set_setting('pengajar_nama', mb_substr(post('pengajar_nama'), 0, 120));
+    set_setting('pengajar_bio', mb_substr(post('pengajar_bio'), 0, 2000));
+    set_setting('garansi', mb_substr(post('garansi'), 0, 1000));
+    set_setting('testimoni', mb_substr(post('testimoni'), 0, 4000));
+    set_setting('analitik', mb_substr(post('analitik'), 0, 2000));
     if (!empty($_FILES['qris']['name'])) {
         $p = save_upload($_FILES['qris'], 'uploads', ['image/png' => 'png', 'image/jpeg' => 'jpg'], 3 * 1024 * 1024);
         if ($p) set_setting('qris', $p);

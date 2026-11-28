@@ -42,7 +42,7 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     math(document.body);
-    if (!document.querySelector('.login')) floatMath($('mathCanvas'), 14);
+    if (!document.querySelector('.login') && !document.body.classList.contains('pub')) floatMath($('mathCanvas'), 14);
 
     /* konfirmasi sebelum kirim form berbahaya */
     document.addEventListener('submit', function (e) {
@@ -78,16 +78,15 @@
     var cd = $('cd');
     if (cd) {
       var target = new Date(cd.getAttribute('data-target')).getTime();
-      var parts = { d: $('cdD'), h: $('cdH'), m: $('cdM'), s: $('cdS') };
+      var parts = { d: $('cdD'), h: $('cdH'), m: $('cdM') };
       var pad = function (n) { return String(n).padStart(2, '0'); };
       var tick = function () {
         var left = Math.max(0, Math.floor((target - Date.now()) / 1000));
         parts.d.textContent = String(Math.floor(left / 86400));
         parts.h.textContent = pad(Math.floor(left % 86400 / 3600));
         parts.m.textContent = pad(Math.floor(left % 3600 / 60));
-        parts.s.textContent = pad(left % 60);
       };
-      tick(); setInterval(tick, 1000);
+      tick(); setInterval(tick, 30000);
     }
 
     /* contoh soal di beranda */
@@ -108,21 +107,20 @@
       });
     }
 
-    /* popup pilih jenjang */
+    /* popup jenjang lain (tidak pernah terbuka otomatis) */
     var dlg = $('jenjangDlg');
     if (dlg && typeof dlg.showModal === 'function') {
-      var pill = $('jenjangBtn'), form = $('tungguForm'), cur = ls('mj_jenjang');
-      var mark = function () {
-        dlg.querySelectorAll('.pjl button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-kode') === cur); });
-        if (pill && cur) pill.textContent = cur;
-      };
-      mark();
-      if (!cur) dlg.showModal();
-      if (pill) pill.addEventListener('click', function () { form.style.display = 'none'; dlg.showModal(); });
+      var form = $('tungguForm');
+      document.querySelectorAll('[data-jenjang]').forEach(function (t) {
+        t.addEventListener('click', function () { form.style.display = 'none'; dlg.showModal(); });
+      });
+      var tutup = $('jenjangTutup');
+      if (tutup) tutup.addEventListener('click', function () { dlg.close(); });
+      dlg.addEventListener('click', function (e) { if (e.target === dlg) dlg.close(); });
       dlg.querySelectorAll('.pjl button').forEach(function (b) {
         b.addEventListener('click', function () {
           var kode = b.getAttribute('data-kode');
-          if (b.getAttribute('data-aktif') === '1') { cur = kode; ls('mj_jenjang', kode); mark(); dlg.close(); }
+          if (b.getAttribute('data-aktif') === '1') { dlg.close(); }
           else {
             $('tungguJudul').textContent = b.getAttribute('data-nama');
             $('tungguKode').value = kode;

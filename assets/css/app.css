@@ -181,12 +181,11 @@ body.pub{padding-top:88px}
 .chip .ic{width:16px;height:16px;color:var(--r500)}
 @media(min-width:960px){.hero .wrap{grid-template-columns:1.1fr .9fr;align-items:center;gap:3rem}.hero{padding:3rem 0 4rem}}
 .cdhero{position:relative;overflow:hidden;background:linear-gradient(135deg,#e11d48 0%,#9f1239 100%);border:1px solid var(--r700);border-radius:2rem;padding:2rem 1.5rem;text-align:center;color:#fff;box-shadow:0 20px 40px -15px rgba(225,29,72,.45)}
-.cdhero::before{content:"";position:absolute;inset:0;opacity:.1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");animation:pan 30s linear infinite}
-@keyframes pan{to{background-position:100% 100%}}
+.cdhero::before{content:"";position:absolute;inset:0;opacity:.1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");}
 .cdhero>*{position:relative}
 .cdhero h2{color:#fff;font-size:1.35rem;margin:.2rem 0 0}
 .cdhero .sub{color:rgba(255,255,255,.8);font-size:.8rem;font-weight:600;margin:0}
-.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;max-width:400px;margin:1.3rem auto 1.5rem}
+.cd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;max-width:340px;margin:1.3rem auto 1.5rem}
 .cd-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px);border-radius:1rem;padding:.9rem .2rem}
 .cd-num{font:800 1.75rem/1 var(--m);color:#fff}
 .cd-unit{font-size:.58rem;font-weight:800;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.1em;margin-top:.4rem}
@@ -453,3 +452,60 @@ body.exam{min-height:100vh}
 .examnav .grow{display:none}
 .examnav .btn{font-size:.78rem;letter-spacing:0;padding:.6rem .3rem;min-width:0}
 .examtop .in>div:first-child{min-width:0}
+
+/* ===== halaman publik: ringan untuk HP murah ===== */
+body.pub *,body.pub dialog.pj{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.pub .liquid .in{background:rgba(255,255,255,.97)}
+body.pub .math-canvas{display:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+
+/* ===== beranda: tambahan ===== */
+.flashwrap{padding-top:1rem}
+.eyebrow-w{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff}
+.hero-harga{display:flex;align-items:baseline;gap:.6rem;flex-wrap:wrap;margin:1rem 0 0;font-weight:700}
+.hero-harga b{font-size:1.7rem;color:var(--r600)}
+.hero-harga s{font:600 .95rem var(--m)}
+.chip.hot{background:var(--r50);border-color:var(--r200);color:var(--r700)}
+.pc-head h3{margin:0}
+.pc-head p{margin:4px 0 0}
+.jenjang-lain{margin-top:1.4rem;font-size:.88rem}
+.linkbtn{background:none;border:0;padding:0;font:700 inherit var(--f);color:var(--r700);text-decoration:underline;text-underline-offset:3px;cursor:pointer;text-align:left}
+.linkbtn:hover{color:var(--r600)}
+.silabus{display:grid;gap:.7rem;margin:0;padding:0;list-style:none}
+@media(min-width:760px){.silabus{grid-template-columns:repeat(2,1fr)}}
+.silabus li{display:flex;gap:.9rem;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:1.2rem;padding:.9rem 1.1rem}
+.silabus .num{flex:none;width:2.2rem;height:2.2rem;border-radius:.7rem;background:var(--r50);color:var(--r600);display:grid;place-items:center;font-size:.85rem}
+.silabus b{display:block;font-size:.92rem}
+.silabus span.mute{font-size:.84rem;font-weight:600}
+.callout{display:flex;gap:1.1rem;align-items:flex-start;background:var(--r50);border:1px solid var(--r200);border-radius:1.8rem;padding:1.4rem}
+.callout h2{margin:0 0 .4rem;font-size:1.25rem}
+.callout p{margin:0;color:var(--ink2);font-weight:600;line-height:1.65}
+.bio{max-width:44rem;color:var(--ink2);font-weight:500;line-height:1.75}
+.testi{display:grid;gap:1rem}
+@media(min-width:860px){.testi{grid-template-columns:repeat(3,1fr)}}
+.testi figure{margin:0}
+.testi blockquote{margin:0 0 .8rem;font-weight:600;line-height:1.65;color:var(--ink2)}
+.testi figcaption{font:800 .78rem var(--f);color:var(--r600)}
+.akhir{text-align:center;background:linear-gradient(135deg,#e11d48 0%,#9f1239 100%);color:#fff;border-radius:2rem;padding:2.4rem 1.4rem}
+.akhir h2{color:#fff}
+.akhir p{color:rgba(255,255,255,.85);max-width:34rem;margin:0 auto 1.4rem;font-weight:600}
+.akhir .cta{justify-content:center;display:flex;gap:.75rem;flex-wrap:wrap}
+.akhir .btn:not(.ghost){background:#fff;color:var(--r600);border-color:#fff;box-shadow:0 10px 20px -6px rgba(0,0,0,.25)}
+.foot-grid{display:grid;gap:1.6rem;grid-template-columns:1fr;width:100%}
+@media(min-width:760px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr}}
+.foot-grid nav{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.foot-grid b{color:var(--ink);font-size:.82rem}
+.foot-grid a{color:var(--mute);text-decoration:none}
+.foot-grid a:hover{color:var(--r600)}
+.foot-about{margin:.7rem 0 0;max-width:26rem;font-weight:500}
+.foot-copy{width:100%;padding-top:1rem;border-top:1px solid var(--pl);font-size:.76rem}
+.foot .wrap{flex-direction:column}
+.wafab{position:fixed;right:max(1rem,env(safe-area-inset-right));bottom:max(1rem,env(safe-area-inset-bottom));z-index:45;display:inline-flex;align-items:center;gap:.5rem;height:52px;padding:0 1.1rem;border-radius:999px;background:#16a34a;color:#fff;font:800 .82rem var(--f);text-decoration:none;box-shadow:0 12px 26px -8px rgba(22,163,74,.6)}
+.wafab:hover{background:#15803d;color:#fff}
+.wafab .ic{width:22px;height:22px}
+@media(max-width:560px){.wafab span{display:none}.wafab{width:52px;padding:0;justify-content:center}}
+dialog.pj .tutup{margin-top:1rem}
+.legal{max-width:46rem;padding-top:1rem;padding-bottom:3rem}
+.legal h2{font-size:1.15rem;margin:1.8rem 0 .5rem}
+.legal p,.legal li{color:var(--ink2);line-height:1.75;font-weight:500}
+.legal ul{padding-left:1.2rem}
