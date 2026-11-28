@@ -1,0 +1,49 @@
+name: Cari folder situs (sekali pakai)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cari:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cari folder yang dilayani mathletics.id
+        env:
+          S: ${{ secrets.FTP_SERVER }}
+          U: ${{ secrets.FTP_USERNAME }}
+          P: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          set -u
+          CURL="curl -s --ssl-reqd --connect-timeout 20 -u $U:$P"
+          ID="probe-$(date +%s)-$RANDOM.txt"
+          echo "ok-$ID" > "$ID"
+
+          echo "== Isi folder home FTP =="
+          HOME_LS=$($CURL "ftp://$S/" -l || true)
+          echo "$HOME_LS"
+          echo "== Isi public_html =="
+          PUB_LS=$($CURL "ftp://$S/public_html/" -l || true)
+          echo "$PUB_LS"
+
+          CANDS="."
+          for d in $HOME_LS; do case "$d" in .*|*.*) ;; *) CANDS="$CANDS $d";; esac; done
+          CANDS="$CANDS public_html"
+          for d in $PUB_LS; do case "$d" in .*|*.*) ;; *) CANDS="$CANDS public_html/$d";; esac; done
+          # folder bertitik (mis. mathletics.id) tetap kandidat
+          for d in $HOME_LS; do case "$d" in .*) ;; *.*) CANDS="$CANDS $d";; esac; done
+          for d in $PUB_LS; do case "$d" in .*) ;; *.*) CANDS="$CANDS public_html/$d";; esac; done
+
+          echo "== Uji kandidat =="
+          FOUND=""
+          for d in $CANDS; do
+            path="$d/$ID"; [ "$d" = "." ] && path="$ID"
+            if $CURL -T "$ID" "ftp://$S/$path" >/dev/null 2>&1; then
+              body=$(curl -s -m 15 "https://mathletics.id/$ID" || true)
+              if [ "$body" = "ok-$ID" ]; then FOUND="$d"; echo "COCOK: $d"; else echo "bukan: $d"; fi
+              $CURL "ftp://$S/" -Q "-DELE $path" >/dev/null 2>&1 || true
+            else
+              echo "tidak bisa ditulis / bukan folder: $d"
+            fi
+          done
+          echo "== HASIL =="
+          echo "DOCROOT=${FOUND:-TIDAK_DITEMUKAN}"
